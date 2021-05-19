@@ -153,7 +153,9 @@ function Position:OnEnable()
 
 	-- in alphabetical order, as they should be
 	self:SetFramePosition('durability')
-	self:SetFramePosition('questWatch')
+	if((Chinchilla:GetModule("QuestTracker", true) and Chinchilla:GetModule("QuestTracker"):IsEnabled())) then
+		self:SetFramePosition('questWatch')
+	end
 	self:SetFramePosition('ticketStatus')
 
 	if Chinchilla:IsRetail() then
@@ -196,7 +198,9 @@ function Position:OnDisable()
 
 	-- in alphabetical order, as they should be
 	self:SetFramePosition('durability')
-	self:SetFramePosition('questWatch')
+	if((Chinchilla:GetModule("QuestTracker", true) and Chinchilla:GetModule("QuestTracker"):IsEnabled())) then
+		self:SetFramePosition('questWatch')
+	end
 	self:SetFramePosition('ticketStatus')
 
 	if Chinchilla:IsRetail() then
@@ -726,7 +730,7 @@ function Position:GetOptions()
 			disabled = InCombatLockdown,
 		} or nil,
 		questWatch = nameToFrame["questWatch"] and {
-			name = L["Quest and achievement tracker"],
+			name = L["Quest and achievement tracker.  Moving this element is disabled if Quest Tracker module is disabled."],
 			desc = L["Position of the quest/achievement tracker on the screen"],
 			type = 'group',
 			inline = true,
@@ -738,6 +742,7 @@ function Position:GetOptions()
 					order = 1,
 					get = movable_get,
 					set = movable_set,
+					disabled = not ((Chinchilla:GetModule("QuestTracker", true) and Chinchilla:GetModule("QuestTracker"):IsEnabled()))
 				},
 				x = {
 					name = L["Horizontal position"],
